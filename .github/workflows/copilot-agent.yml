@@ -1,0 +1,21 @@
+name: Copilot Agent
+
+on:
+  workflow_dispatch:
+    inputs:
+      prompt:
+        description: 'The prompt for the Copilot agent'
+        required: true
+
+jobs:
+  copilot_agent:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Run Copilot Agent
+        uses: github/copilot-agent-action@v1
+        with:
+          prompt: ${{ github.event.inputs.prompt }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
