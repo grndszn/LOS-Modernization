@@ -1,42 +1,21 @@
-name: GitHub Copilot Agent Workflow
+name: Copilot Agent
 
 on:
-  pull_request:
-    types: [opened, synchronize]
-  issues:
-    types: [opened, edited]
-  issue_comment:
-    types: [created, edited]
-
-permissions:
-  contents: write
-  pull-requests: write
-  issues: write
+  workflow_dispatch:
+    inputs:
+      prompt:
+        description: 'The prompt for the Copilot agent'
+        required: true
 
 jobs:
-  copilot:
+  copilot_agent:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Run Copilot Agent
+        uses: github/copilot-agent-action@v1
         with:
-          fetch-depth: 0
-      
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          
-      - name: Configure Git
-        run: |
-          git config --global user.name "GitHub Copilot"
-          git config --global user.email "copilot@github.com"
-          
-      - name: Setup GitHub Copilot
-        uses: github/copilot@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          
-      - name: Enable Copilot Features
-        run: |
-          echo "COPILOT_AGENT_ENABLED=true" >> $GITHUB_ENV
-          echo "COPILOT_AUTO_SUGGESTIONS=true" >> $GITHUB_ENV
+          prompt: ${{ github.event.inputs.prompt }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
