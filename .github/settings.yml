@@ -1,0 +1,29 @@
+# Repository settings for GitHub Copilot agent
+repository:
+  # Enable Copilot features
+  enable_copilot: true
+  
+  # Allow Copilot to create branches and PRs
+  allow_auto_merge: false
+  allow_squash_merge: true
+  
+  # Branch protection rules
+  branch_protection:
+    main:
+      required_status_checks: true
+      enforce_admins: false
+      required_reviews: 1
+      
+  # Copilot specific settings
+  copilot:
+    enabled_features:
+      - code_review
+      - code_suggestions
+      - pull_requests
+      - dependency_updates
+    
+    # Workflow automation
+    automation:
+      enabled: true
+      pr_title_pattern: "feat(copilot): ${scope} - ${description}"
+      branch_name_pattern: "copilot/${scope}/${description}"

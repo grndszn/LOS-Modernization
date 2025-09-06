@@ -1,0 +1,22 @@
+{
+  "enable-copilot-agent": true,
+  "copilot-agent": {
+    "branch-prefix": "copilot/",
+    "commit-message-prefix": "feat(copilot): ",
+    "review-required": false,
+    "auto-merge": false,
+    "allowed-tasks": [
+      "dependency-updates",
+      "code-modernization",
+      "security-updates",
+      "infrastructure-updates"
+    ]
+  },
+  "suggested-tasks": [
+    {
+      "name": "Node.js and Core Dependencies Update",
+      "description": "Update Node.js to v20 LTS and modernize core dependencies",
+      "labels": ["modernization", "dependencies"]
+    }
+  ]
+}
