@@ -1,0 +1,39 @@
+name: Deep Modernization Analysis
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 6 * * 1'
+
+jobs:
+  analyze:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Dependency Audit
+        run: |
+          npm install --omit=dev || true
+          npm audit --json > npm-audit.json
+      - name: CodeQL Analysis
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v3
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+      - name: Lint code
+        run: |
+          npm install eslint || true
+          npx eslint . --ext .js,.jsx,.ts,.tsx --format json -o eslint-results.json
+      - name: Synthesize Modernization Plan
+        run: |
+          node .github/scripts/summarize-legacy.js || echo 'No custom summarizer script found'
+          cat npm-audit.json > MODERNIZATION_PLAN.md
+          echo '---\nESLint Results:' >> MODERNIZATION_PLAN.md
+          cat eslint-results.json >> MODERNIZATION_PLAN.md
+      - name: Upload Modernization Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: modernization-plan
+          path: MODERNIZATION_PLAN.md
