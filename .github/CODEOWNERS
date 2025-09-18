@@ -1,0 +1,39 @@
+# CODEOWNERS file for LOS-Modernization
+# This file defines code ownership and review requirements
+
+# Global owners - all files require review by @grndszn
+* @grndszn
+
+# Backend and server configuration files
+*.js @grndszn
+*.json @grndszn
+index.js @grndszn
+package.json @grndszn
+
+# Frontend and styling
+*.css @grndszn
+*.scss @grndszn
+*.ejs @grndszn
+public/ @grndszn
+static/ @grndszn
+
+# Documentation
+*.md @grndszn
+README.md @grndszn
+CLEANUP.md @grndszn
+
+# Security-sensitive files require extra scrutiny
+.github/ @grndszn
+.gitignore @grndszn
+LICENSE @grndszn
+
+# Configuration files
+.eslintrc.json @grndszn
+.prettierrc @grndszn
+nodemon.json @grndszn
+
+# Application directories
+app/ @grndszn
+content/ @grndszn
+processes/ @grndszn
+docs/ @grndszn
